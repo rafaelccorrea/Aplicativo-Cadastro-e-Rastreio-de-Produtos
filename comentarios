@@ -1,0 +1,39 @@
+//CRUD
+
+//Create
+app.get('/create', async (req, res) => {
+    let create = await Users.create({
+        nome: 'Rafael',
+        password: 'abc',
+        createAt: new Date(),
+        updatedAt: new Date()
+    });
+    res.send('Usuario Criado Com Sucesso!')
+});
+
+//Listar
+app.get('/read', async (req,res)=>{
+    let read = await Users.findAll({
+        raw: true
+    });
+    console.log(read)
+})
+
+//Atualizar
+app.get('/update', async (req,res)=>{
+    let update = await Users.findByPk(1,
+        {include: [{all:true}]}
+        ).then((response)=>{
+        response.save()
+        res.send('Atualizado!')
+        console.log(response)
+    })
+})
+
+//Deletar
+app.get('/delete', async (req, res)=>{
+    Users.destroy({
+        where: {id:1}
+    })
+    res.send('Usuario Deletado!')
+})
